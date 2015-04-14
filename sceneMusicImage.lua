@@ -3,19 +3,33 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 
-
-
-local function listenerJinx(event)
+local function listenerJinxOff(event)
 
     if event.phase == "began" then
         local txt = display.newText( "jinx empieza began lololololo" , 0, _H - 100,  native.systemFont, 20 )
         txt:setFillColor( 200/255, 50/255, 50/255 )
         txt.anchorX = 0
+         
+
+    elseif event.phase == "ended" then
+        
+       
+    end
+end
+
+local function listenerJinxOn(event)
+
+    if event.phase == "began" then
+        local txt = display.newText( "jinx empieza began lololololo" , 0, _H - 100,  native.systemFont, 20 )
+        txt:setFillColor( 200/255, 50/255, 50/255 )
+        txt.anchorX = 0
+
     elseif event.phase == "ended" then
         local txt = display.newText( "jinx es ".. event.target.tipo , 50, 40,  native.systemFont, 20 )
         txt:setFillColor( 200/255, 50/255, 50/255 )
         local music = audio.loadSound( "sounds/GetJinxed.mp3")
         audio.play( music )
+
     end
 end
 
@@ -27,7 +41,8 @@ function scene:create( event )
     jinx.anchorX = 0.5
     jinx.tipo = "adc"
     jinx.x = _centerX
-    jinx:addEventListener( "touch", listenerJinx )
+    jinx:addEventListener( "touch", listenerJinxOn )
+
 end
 
 
@@ -38,7 +53,7 @@ function scene:show( event )
     local phase = event.phase
 
     if ( phase == "will" ) then
-        -- Called when the scene is still off screen (but is about to come on screen).
+        print( "holaaa" )
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.

@@ -1,47 +1,36 @@
+
 local composer = require( "composer" )
-
 local scene = composer.newScene()
-
-
-local function listenerJinxOff(event)
-
-    if event.phase == "began" then
-        local txt = display.newText( "jinx empieza began lololololo" , 0, _H - 100,  native.systemFont, 20 )
-        txt:setFillColor( 200/255, 50/255, 50/255 )
-        txt.anchorX = 0
-         
-
-    elseif event.phase == "ended" then
-        
-       
-    end
-end
-
-local function listenerJinxOn(event)
-
-    if event.phase == "began" then
-        local txt = display.newText( "jinx empieza began lololololo" , 0, _H - 100,  native.systemFont, 20 )
-        txt:setFillColor( 200/255, 50/255, 50/255 )
-        txt.anchorX = 0
-
-    elseif event.phase == "ended" then
-        local txt = display.newText( "jinx es ".. event.target.tipo , 50, 40,  native.systemFont, 20 )
-        txt:setFillColor( 200/255, 50/255, 50/255 )
-        local music = audio.loadSound( "sounds/GetJinxed.mp3")
-        audio.play( music )
-
-    end
-end
-
+local widget = require ("widget")
+local temps = 100
+local numero
 function scene:create( event )
 
     local sceneGroup = self.view
-    local bg = display.newRect( sceneGroup, _centerX, _centerY, _W, _H )
-    local jinx = display.newImage(  sceneGroup, "img/jinx.jpeg" , display.contentCenterX, display.contentCenterY)
-    jinx.anchorX = 0.5
-    jinx.tipo = "adc"
-    jinx.x = _centerX
-    jinx:addEventListener( "touch", listenerJinxOn )
+    local background = display.newImageRect( sceneGroup, "img/joc1.png", _W, _H )
+    background.x = _centerX
+    background.y = _centerY
+    local button = widget.newButton{
+        x = _centerX,
+        y = _centerY+220,
+        label = "Next",
+        shape = "roundedRect",
+        width = 200,
+        height = 40,
+        fillColor = { default={ 1, 0, 0, 1 }, over={ 1, 0.1, 0.7, 0.4 } },
+        onRelease = function()composer.gotoScene( "pantalla3" ) end
+    }
+    button:setFillColor( 0,0,0 )
+    sceneGroup:insert( button )
+    timer.performWithDelay( 1000, listenerCronometre, temps )
+    numero = display.newText(sceneGroup, "", 120, 20, native.systemFont, 20 )
+    numero:setFillColor( 0,0,0 )
+end
+
+function listenerCronometre( event )
+    temps = temps - 1
+    numero.text = temps
+    print("Segons: "..temps)    
 
 end
 
